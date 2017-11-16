@@ -1,0 +1,37 @@
+{
+  "name": "globaltoken",
+  "version": "1.0.0",
+  "description": "更新全局token",
+  "main": "app.js",
+  "scripts": {
+    "start": "node  lib/index.js",
+    "build": "babel src --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjwygjj/globalToken.git"
+  },
+  "dependencies": {
+    "config": "^1.26.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-eslint": "^7.0.0",
+    "babel-plugin-syntax-trailing-function-commas": "^6.20.0",
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.18.0",
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
+    "babel-register": "^6.3.13",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-babel": "^4.0.0",
+    "eslint-plugin-import": "^2.2.0",
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjwygjj/globalToken/issues"
+  },
+  "homepage": "https://github.com/jjwygjj/globalToken#readme"
+}

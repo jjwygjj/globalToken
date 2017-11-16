@@ -1,0 +1,10 @@
+{
+  "presets": [],
+  "plugins": [
+    ["transform-es2015-modules-commonjs", { "allowTopLevelThis": true }],
+    "transform-async-to-generator",
+    "syntax-trailing-function-commas",
+    ["transform-class-properties", { "spec": true }],
+    ["transform-object-rest-spread", { "useBuiltIns": true }]
+  ],
+}
