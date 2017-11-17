@@ -1,8 +1,11 @@
 {
   "name": "globaltoken",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "更新全局token",
   "main": "app.js",
+  "bin": {
+    "GT": "bin/cli"
+  },
   "scripts": {
     "start": "node  lib/index.js",
     "build": "babel src --out-dir lib"
