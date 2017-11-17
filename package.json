@@ -1,6 +1,6 @@
 {
   "name": "globaltoken",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "description": "更新全局token",
   "main": "app.js",
   "bin": {

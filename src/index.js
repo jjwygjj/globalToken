@@ -15,17 +15,24 @@ program
   .option('-p, --filepath <filepath>', 'remotes path')
   .option('-t, --token_url <token_url>', 'get token_url')
   .option('-m, --mode <mode>', 'The token is sent to the remote mode. file and redis')
-  .option('-rh, --redis_host <redis_host>', 'redis_host')
-  .option('-rp, --redis_port <redis_port>', 'redis_port')
-  .option('-rpw, --redis_password <redis_password>', 'redis_password')
+  .option('-U, --redis_url <redis_url>', '[redis:]//[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]')
   .parse(process.argv)
-
 const mode = program.mode || 'file'
 const token_url = program.token_url
 const user = program.user
 const repository = program.repository
 const file = program.file
 const filepath = program.filepath
+const redis_url = program.redis_url
+console.log('args:',{
+  mode,
+  token_url,
+  user,
+  repository,
+  file,
+  filepath,
+  redis_url
+})
 const url = `https://raw.githubusercontent.com/${user}/${repository}/master/${file}`
 axios.get(url)
   .then(function (response) {
@@ -33,14 +40,20 @@ axios.get(url)
     const remotes = Object.values(hosts_config)
     createFunc(func_config)
     createSh(remotes, filepath)
-    const update = require('../update')()
+    const update = require(path.join(__dirname,'..','update.js'))()
     update.then(x => {
+      console.log('==生产token成功==')
       saveFile('token.txt', JSON.stringify(x.data))
       if(mode === 'file') {
+        console.log('==file deploy==')
         deploy()
       }else {
+        console.log('==redis deploy==')
         deploy_redis(JSON.stringify(x.data))
       }
+    })
+    .catch(function (error) {
+      console.log(error)
     })
   })
   .catch(function (error) {
@@ -56,12 +69,12 @@ axios.get(url)
     const func = `var axios = require('axios') \n module.exports = ${data}`
     saveFile('update.js', func)
   }
-  function createSh (data, path) {
+  function createSh (data, pathfile) {
     let deploy_string = ''
     data.map(x => {
       const ip = x.ip
       const user = x.user
-      deploy_string += `rsync -azP ./token.txt ${user}@${ip}:${path}/token.txt \n`
+      deploy_string += `rsync -azP ${path.join(__dirname,'..','token.txt')} ${user}@${ip}:${pathfile}/token.txt \n`
     })
     saveFile('deploy.sh', deploy_string)
   }
@@ -74,13 +87,11 @@ axios.get(url)
       console.log(`stdout: ${stdout}`);
       console.log(`stderr: ${stderr}`);
     })
+    return
   }
 
   function deploy_redis(data){
-    const client = redis.createClient({
-      host: program.redis_host,
-      port: program.redis_port,
-      password: program.redis_password
-    })
+    const client = redis.createClient({url: redis_url})
     client.on('ready', function () {client.set("token", data)})
+    return
   }
