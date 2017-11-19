@@ -30,7 +30,7 @@ token_config文件存放在public github repository 中
     -h, --help                     output usage information
 example:
 
-每月 15号 22点更新token到redis，将mode 改为file 则更新token到54.223.103.193服务器下/srv/www/token.txt
+每月 16号 23点更新token到redis，将mode 改为file 则更新token到54.223.103.193服务器下/srv/www/token.txt
 
 crontab 0 22 15 * * /bin/sh ./update.sh
 
