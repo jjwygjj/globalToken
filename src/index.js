@@ -82,16 +82,18 @@ axios.get(url)
     exec(`sh ${path.join(__dirname,'..','deploy.sh')}`, (error, stdout, stderr) => {
       if (error) {
         console.error(`exec error: ${error}`);
+        process.exit(0)
         return;
       }
       console.log(`stdout: ${stdout}`);
       console.log(`stderr: ${stderr}`);
+      process.exit(0)
     })
     return
   }
 
   function deploy_redis(data){
     const client = redis.createClient({url: redis_url})
-    client.on('ready', function () {client.set("token", data)})
+    client.on('ready', function () {client.set("token", data); process.exit(0)})
     return
   }
